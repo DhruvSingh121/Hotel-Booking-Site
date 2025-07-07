@@ -45,7 +45,7 @@ const sessionOptions = {
 };
 
 app.get("/", (req, res) => {
-  res.send("Root FOlder");
+  res.send("Root Folder is UnderConstruction");
 });
 
 app.use(session(sessionOptions));
