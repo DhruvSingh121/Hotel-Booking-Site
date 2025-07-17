@@ -22,6 +22,24 @@ body {
   color: #222222 !important;
 }
 
+.btn-search {
+  background-color: #fe424d;
+  color: white;
+  border-radius: 25px;
+  padding: 0 1rem 0 1rem;
+}
+.btn-search:hover {
+  background-color: #fe424d;
+  color: white;
+}
+.btn-search i {
+  display: inline;
+  margin-right: 0.5rem;
+}
+.inp-search {
+  border-radius: 25px;
+  padding: 0.5rem 3rem 0.5rem 3rem;
+}
 /* footer */
 .f-info {
   text-align: center;
@@ -117,4 +135,10 @@ body {
 .show-card {
   padding-left: 0;
   padding-right: 0;
+}
+
+/* map */
+#map {
+  height: 180px;
+  width: 200px;
 }
