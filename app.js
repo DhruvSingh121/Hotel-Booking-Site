@@ -1,7 +1,6 @@
-if (process.env.NODE_ENV != "production") {
+if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-// console.log(process.env.SECRET);
 
 const express = require("express");
 const app = express();
@@ -22,23 +21,27 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
+const __dirname = path.resolve();
+
 const dbUrl = process.env.ATLASDB_URL;
-main()
-  .then((res) => {
-    console.log("Connected TO Db");
-  })
-  .catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect(dbUrl);
+  try {
+    await mongoose.connect(dbUrl);
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+  }
 }
+main();
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
@@ -49,7 +52,7 @@ const store = MongoStore.create({
 });
 
 store.on("error", () => {
-  console.log("ERROR in Mongo Session Store");
+  console.log("Error in Mongo Session Store");
 });
 
 const sessionOptions = {
@@ -64,17 +67,12 @@ const sessionOptions = {
   },
 };
 
-// app.get("/", (req, res) => {
-//   res.send("Root Folder is UnderConstruction");
-// });
-
 app.use(session(sessionOptions));
 app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -87,14 +85,13 @@ app.use((req, res, next) => {
 
 app.get("/demouser", async (req, res) => {
   let fakeUser = new User({
-    email: "sudent@gmail.com",
+    email: "student@gmail.com",
     username: "Sigma-Student",
   });
   let registeredUser = await User.register(fakeUser, "helloworld");
   res.send(registeredUser);
 });
 
-//Listing & Review & User Routes
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
@@ -108,6 +105,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error.ejs", { statusCode, message });
 });
 
-app.listen(8080, () => {
-  console.log("Server Started!");
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });
