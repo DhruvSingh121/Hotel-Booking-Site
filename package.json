@@ -1,12 +1,12 @@
 {
-  "engines":{
+  "engines": {
     "node": "22.14.0"
   },
   "name": "airbnb-clone",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.cjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.cjs"
   },
   "keywords": [],
   "author": "",
