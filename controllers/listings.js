@@ -28,6 +28,8 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res, next) => {
+  console.log("req.body =>", req.body);
+  console.log("req.file =>", req.file);
   let url = req.file.path;
   let filename = req.file.filename;
 

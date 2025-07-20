@@ -4,9 +4,9 @@
   },
   "name": "airbnb-clone",
   "version": "1.0.0",
-  "main": "app.cjs",
+  "main": "app.js",
   "scripts": {
-    "start": "node app.cjs"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
